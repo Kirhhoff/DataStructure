@@ -6,23 +6,26 @@
 template<class E>
 class AList:virtual public List<E>{
 	private:
-	typename List<E>::Link* head;
-	typename List<E>::Link* tail;
-	typename List<E>::Link* curr;
+	typedef typename List<E>::Link ALink;
+
+	private:
+	ALink* head;
+	ALink* tail;
+	ALink* curr;
 	int cnt;
 		
 	public:
 	AList(){
-		head=tail=curr=new typename List<E>::Link();
+		head=tail=curr=new ALink;
 		cnt=0;
 	}
 	~AList(){
-		delete head;
+
 	}
 	
 	public:
 	void insert(const E& element){
-		
+			
 	}	
 
 };

@@ -68,7 +68,13 @@ void Interface::Entry(int entryNumber){
 }
 
 void Interface::showEntry(int entryNumber){
-
+	switch(entryNumber){
+	case 1:	cout<<"请依次输入汽车品牌、型号、颜色、车牌号、出厂年份、出厂月份、出厂日期"
+				<<"以回车键结束输入"<<endl;
+			break;
+	case 2:{
+		while	   
+	}
 }
 
 void Interface::logicOfEntry(int entryNumber){

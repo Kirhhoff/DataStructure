@@ -4,6 +4,7 @@
 #include<stdlib.h>
 #include<iostream>
 #include<assert.h>
+#include"Car.h"
 template<class E>
 class LList{
 	//The following defines a private class List.
@@ -85,6 +86,9 @@ class LList{
 	//Move the curr pointer to the start of the LList.
 	void moveToStart(){curr=head;}
 	
+	//To judge if the curr point is at the end of the List
+	bool atEnd(){return !curr->next;}
+	
 	//Move the curr pointer to the end of the LList.
 	void moveToEnd(){curr=tail;}
 	
@@ -108,9 +112,12 @@ class LList{
 	}
 	
 	//Move the curr pointer to the one after it.
-	void next(){
-		if(curr!=tail)
+	bool next(){
+		if(curr!=tail){
 			curr=curr->next;
+			return true;
+		}else
+			return false;
 	}
 
 	//
@@ -157,6 +164,8 @@ class LList{
 
 	//Return the position of the element curr pointer points to.
 	int getPos(){
+		if(tail=head)
+			return 0;
 		int i=1;
 		for(List* tmp=head;tmp!=curr;i++)
 			tmp=tmp->next;
@@ -191,35 +200,4 @@ class LList{
 		return result;
 	}
 };
-
-void fibr(int num, LStack<int>& S) {
-	//Push the initial value of the series.
-	S.push(1);
-	S.push(1);
-
-	//Declare temporaty variables.
-	int num1, num2, sum;
-
-	//Loop 
-	while (num - 2 > 0) {
-		//Store the data of pop operation.
-		num2 = S.pop();
-		num1 = S.pop();
-		
-		//Calculate the temporary summary.
-		sum = num1 + num2;
-
-		//Repush.
-		S.push(num1);
-		S.push(num2);
-		S.push(sum);
-		
-		//Update the counter.
-		num--;
-	}
-	while (S.length() != 0) 
-		cout << S.pop() << ' ';//Print the data in the stack.
-}
-
-
 

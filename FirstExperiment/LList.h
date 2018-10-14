@@ -199,5 +199,35 @@ class LList{
 				result->append(tmp1->next->element);
 		return result;
 	}
+	
+	//
+	bool swap(int pos1,int pos2){
+		if(pos1>length||pos2>length||pos1<1||pos2<1)
+			return false;
+		if(pos1==pos2) 
+			return true;
+		Link** container=new Link*[length+1];
+		Link* tmp=head;
+		int curPos=0;
+		for(int i=1;i<=length;i++){
+			if(tmp==curr)
+				curPos=i;
+			container[i]=tmp->next;
+			tmp=tmp->next;
+		}
+		tmp=container[pos1];
+		container[pos1]=container[pos2];
+		container[pos2]=tmp;
+		for(int i=1;i<=length-1;i++)
+			container[i]->next=container[i+1];
+		container[length]->next=0;
+		head->next=container[1];
+		tail=container[length];
+		if(length=1)
+			curr=head;
+		else
+			curr=container[curPos-1];
+		delete [] container;
+	}
 };
 

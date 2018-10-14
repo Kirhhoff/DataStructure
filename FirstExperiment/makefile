@@ -1,8 +1,17 @@
+errorRecordFile=error.log
+compiler=g++
+dependencies=Car.cpp Interface.cpp main.cpp
+binaryFile=a.out
+options= -std=c++11
+defalutBuild=${compiler} ${options} ${dependencies}
 
 
-
-a.out: Car.cpp Interface.cpp main.cpp
-	g++ -std=c++11 Car.cpp Interface.cpp main.cpp
+${binaryFile}:${dependencies}
+	${defalutBuild}
 
 clean: 
-	rm a.out
+	rm ${binaryFile}
+
+record:
+	${defalutBuild} 2>${errorRecordFile}
+

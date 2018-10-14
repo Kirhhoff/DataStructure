@@ -1,6 +1,7 @@
 #include"Car.h"
 #include<iomanip>
 #include"global.h"
+#include"Hash.h"
 using namespace std;
 
 string carDatabase="CarDatabase.txt";
@@ -29,7 +30,10 @@ ofstream& operator<<(ofstream& fout,const Date& date){
 	fout<<date.year<<"-"<<monthPrefix<<date.month<<"-"<<dayPrefix<<date.day;
 	return fout;
 }
-
+istream& operator>>(istream& in,Date& date){
+	in>>date.year>>date.month>>date.day;
+	return in;
+}
 ifstream& operator>>(ifstream& fin,Date& date){
 	fin>>date.year;
 	fin.get();
@@ -41,7 +45,8 @@ ifstream& operator>>(ifstream& fin,Date& date){
 
 ostream& operator<<(ostream& out,const Car& car){
 	out<<right;
-	out	<<setw(BAND_WIDTH)<<car.band
+	out	<<setw(HASH_WIDTH)<<car.hash
+		<<setw(BAND_WIDTH)<<car.band
 		<<setw(MODEL_WIDTH)<<car.model
 		<<setw(COLOR_WIDTH)<<car.color
 		<<setw(LICENSE_WIDTH)<<car.license
@@ -51,7 +56,8 @@ ostream& operator<<(ostream& out,const Car& car){
 }
 ofstream& operator<<(ofstream& fout,const Car& car){
 	fout<<right;
-	fout<<setw(BAND_WIDTH)<<car.band
+	fout<<setw(HASH_WIDTH)<<car.hash
+		<<setw(BAND_WIDTH)<<car.band
 		<<setw(MODEL_WIDTH)<<car.model
 		<<setw(COLOR_WIDTH)<<car.color
 		<<setw(LICENSE_WIDTH)<<car.license
@@ -59,9 +65,14 @@ ofstream& operator<<(ofstream& fout,const Car& car){
 		<<endl;
 	return fout;
 }
-
+istream& operator>>(istream& in,Car& car){
+	in>>car.band>>car.model>>car.color>>car.license>>car.producedDate;
+}
 ifstream& operator>>(ifstream& fin,Car& car){ 
-	fin>>car.band>>car.model>>car.color>>car.license;
+	fin>>car.hash>>car.band>>car.model>>car.color>>car.license;
 	fin>>car.producedDate;
 	return fin;
 }
+Car::Car():hash(Hash::generate(HASH_LENGTH)){}
+Car::Car(string _band,string _model,string _color,string _license,Date _producedDate):
+	hash(Hash::generate(HASH_LENGTH)),band(_band),model(_model),color(_color),license(_license),producedDate(_producedDate){}

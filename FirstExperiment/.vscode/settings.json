@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "ostream": "cpp",
-        "string_view": "cpp",
-        "editor.fontSize": 16,
-    }
-}

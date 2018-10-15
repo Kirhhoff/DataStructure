@@ -1,5 +1,3 @@
-
-
 template<class Key,class Value>
 class KVpair{
     private:
@@ -7,6 +5,6 @@ class KVpair{
         Value value;
     
     public:
-        Value getValue(){return value;}
-        friend bool operator<(const KVpair& kvpair1,const KVpair& kvpair2);
+        Key getKey()const{return key;}
+        Value getValue()const{return value;}
 };

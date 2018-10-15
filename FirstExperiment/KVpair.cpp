@@ -3,4 +3,5 @@
 #include"config.h"
 
 //bool opearator<(const KVpair<key,Car>& kvpair1,const KVpair<key,Car>& kvpair2){return kvpair1.getValue(). }
-//bool opearator<(const KVpair<key,Car>& kvpair1,const KVpair<key,Car>& kvpair2){return kvpair1.}
+
+bool operator<(const KVpair<key,Car>& kvpair1,const KVpair<key,Car>& kvpair2){return kvpair1.getValue()<kvpair2.getValue();}

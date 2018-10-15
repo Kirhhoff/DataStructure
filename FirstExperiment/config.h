@@ -23,6 +23,7 @@
 #define SEARCH_CARS 5
 
 
+#define HASH 0
 #define BAND 1
 #define MODEL 2
 #define COLOR 3

@@ -1,4 +1,8 @@
+#ifndef HASH_H
+#define HASH_H
+
 #include<string>
+#include<stdlib.h>
 using std::string;
 
 
@@ -6,13 +10,7 @@ class Hash{
     private:
         static string hashLirary;//all characters that may turn up in generated hash code
     public:
-        static string generate(int hashLength){
-            string generatedString="";
-            
-            //Generate specified length hash code
-            for(int i=0;i<hashLength;i++)
-                generatedString+=hashLirary.at(rand()%hashLirary.length());
-        }
-
+        static string generate(int hashLength);
 };
-string Hash::hashLirary="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
+
+#endif

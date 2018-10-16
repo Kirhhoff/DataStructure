@@ -1,4 +1,5 @@
-
+#ifndef LLIST_H
+#define LLIST_H
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -62,7 +63,33 @@ class LList{
 			tail=curr->next;
 		cnt++;
 	}
+
+	//Move the curr pointer to the start of the LList.
+	void moveToStart(){curr=head;}
 	
+	//To judge if the curr point is at the end of the List
+	bool atEnd(){return !curr->next;}
+	
+	//Move the curr pointer to the end of the LList.
+	void moveToEnd(){curr=tail;}
+	
+	//
+	void moveToPosition(const E& element){
+		moveToStart();
+		//break when it reachs the tail
+		//or
+		//it finds one bigger than it.
+		while(curr->next){
+			if(element<curr->next->element)
+				break;
+			curr=curr->next;
+		}
+	}
+	//Insert with sorting.
+	void sortedInsert(const E& element){
+		moveToPosition(element);
+		insert(element);
+	}
 	//Remove the element curr pointer points to currently.	
 	E remove(){
 		assert(curr->next);
@@ -83,15 +110,6 @@ class LList{
 		cnt++;	
 	}
 
-	//Move the curr pointer to the start of the LList.
-	void moveToStart(){curr=head;}
-	
-	//To judge if the curr point is at the end of the List
-	bool atEnd(){return !curr->next;}
-	
-	//Move the curr pointer to the end of the LList.
-	void moveToEnd(){curr=tail;}
-	
 	//Get the value of element curr pointer points to currently.
 	E& getValue(){
 		assert(curr!=tail);
@@ -202,14 +220,21 @@ class LList{
 	
 	//
 	bool swap(int pos1,int pos2){
-		if(pos1>length||pos2>length||pos1<1||pos2<1)
+		//Directly return when postion overflows or it is too small
+		if(pos1>cnt||pos2>cnt||pos1<1||pos2<1)
 			return false;
+		
+		//If the two position are the same, directly return.
 		if(pos1==pos2) 
 			return true;
-		Link** container=new Link*[length+1];
-		Link* tmp=head;
-		int curPos=0;
-		for(int i=1;i<=length;i++){
+
+		
+		List** container=new List*[cnt+1];//the array to accommodate all Links. 
+		List* tmp=head;//iterator 
+		int curPos=0;//Later record the postion of curr pointer.
+		
+		//Transfer all 
+		for(int i=1;i<=cnt;i++){
 			if(tmp==curr)
 				curPos=i;
 			container[i]=tmp->next;
@@ -218,16 +243,44 @@ class LList{
 		tmp=container[pos1];
 		container[pos1]=container[pos2];
 		container[pos2]=tmp;
-		for(int i=1;i<=length-1;i++)
+		for(int i=1;i<=cnt-1;i++)
 			container[i]->next=container[i+1];
-		container[length]->next=0;
+		container[cnt]->next=0;
 		head->next=container[1];
-		tail=container[length];
-		if(length=1)
+		tail=container[cnt];
+		if(cnt=1)
 			curr=head;
 		else
 			curr=container[curPos-1];
 		delete [] container;
 	}
+	
+	//
+	void sort(){
+		if(cnt<=1)
+			return;
+		List** container=new List*[cnt+1];
+		List* tmpLink;
+		for(int kthToSort=1;kthToSort<=cnt;kthToSort++){
+			for(int prevkthToCompare=1;prevkthToCompare<=kthToSort;prevkthToCompare++)
+				if(container[prevkthToCompare]->element>container[kthToSort]->element
+				&&(prevkthToCompare==1||container[prevkthToCompare-1]->element>container[kthToSort]->element)){
+					tmpLink=container[kthToSort];
+					for(int kthToMove=kthToSort-1;kthToMove>=prevkthToCompare;kthToMove--)
+						container[kthToMove+1]=container[kthToMove];
+					container[prevkthToCompare]=tmpLink;
+					break;
+				}
+		}
+		for(int i=1;i<cnt;i++)
+			container[i]->next=container[i+1];
+		head->next=container[1];
+		tail=container[cnt];
+		tail->next=0;
+		delete [] container;
+	}
+	
+	
 };
 
+#endif

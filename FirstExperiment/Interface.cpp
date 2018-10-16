@@ -2,6 +2,7 @@
 #include"config.h"
 #include"KVpair.h"
 #include<iomanip>
+#include<iostream>
 using namespace std;
 
 string carDatabase="CarDatabase.txt";
@@ -268,25 +269,33 @@ void Interface::readDatabase(string databaseFileName){
 	fin.close();
 }
 void Interface::backup(string databaseToBackup){
+	string backupFile=databaseToBackup+".swap";
+	string command="cat "+databaseToBackup+" > "+backupFile;
+	cerr<<command;
+	system("cat CarDatabase.txt > CarDatabase.txt.swap");
+	/*
 	const int bufferSize=100;
 	char infoBuffer[bufferSize];
-	string backupFile=databaseToBackup+".swap";
 	fin.open(databaseFile.c_str());
+	fin.seekg(0,ios::beg);
 	if(!fin.is_open()){
 		cerr<<"Fail to open database file to read when trying to back it up"<<endl;
 		exit(0);
 	}
-	fout.open(backupFile.c_str(),ios_base::app);
+	fout.open(backupFile.c_str());
 	if(!fout.is_open()){
 		cerr<<"Fail to open back-up file to write when trying to back uo"<<endl;
 		exit(0);	
 	}
-	fout.seekp(0,ios::beg);
-	while(fin.getline(infoBuffer,bufferSize))
+	while(!fin.eof()){
+		fin.getline(infoBuffer,bufferSize);
 		fout<<infoBuffer<<endl;
+		fin.get();
+	}
 	fin.clear();
 	fin.close();
 	fout.close();
+	*/
 }
 void Interface::sync(){
 	fout.open(databaseFile);

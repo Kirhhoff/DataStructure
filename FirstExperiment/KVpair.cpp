@@ -20,16 +20,7 @@ ofstream& operator<<(ofstream& fout,const KVpair<Key,Car>& kvpair){
 ifstream& operator>>(ifstream& fin,KVpair<Key,Car>& kvpair){
     Key key;
     Car car;
-    fin>>key;
-	if(!fin){
-		std::cerr<<"Wrong occurs when reading into key"<<std::endl;
-		exit(0);
-	}
-	fin>>car;
-	if(!fin){
-		std::cerr<<"Wrong occurs when reading into car"<<std::endl;
-		exit(0);
-	}
+    fin>>key>>car;
     kvpair.setKey(key);
     kvpair.setValue(car);
     return fin;

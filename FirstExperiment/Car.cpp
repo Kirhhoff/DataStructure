@@ -18,16 +18,18 @@ bool operator<(const Car& car1,const Car& car2){
 }
 
 ostream& operator<<(ostream& out,const Date& date){
-	char monthPrefix=date.month<10?'0':'\0';
-	char dayPrefix=date.day<10?'0':'\0';
-	out<<date.year<<"-"<<monthPrefix<<date.month<<"-"<<dayPrefix<<date.day;
+	out<<date.year<<" ";
+	if(date.month<10)
+		out<<0;
+	out<<date.month<<" ";
+	if(date.day<10)
+		out<<0;
+	out<<date.day;
 	return out;
 }
 
 ofstream& operator<<(ofstream& fout,const Date& date){
-	char monthPrefix=date.month<10?'0':'\0';
-	char dayPrefix=date.day<10?'0':'\0';
-	fout<<date.year<<"-"<<monthPrefix<<date.month<<"-"<<dayPrefix<<date.day;
+	fout<<date.year<<" "<<date.month<<" "<<date.day;
 	return fout;
 }
 istream& operator>>(istream& in,Date& date){
@@ -35,29 +37,7 @@ istream& operator>>(istream& in,Date& date){
 	return in;
 }
 ifstream& operator>>(ifstream& fin,Date& date){
-	while(fin.peek()==' '||fin.peek()=='\t')
-		fin.get();
-	date.year=0;
-	date.month=0;
-	date.day=0;
-	for(int i=0;i<4;i++){
-		date.year*=10;
-		cerr<<date.year<<"\n";
-		date.year+=(fin.get()-'0');
-	}
-	fin.get();
-	for(int i=0;i<2;i++){
-		date.month*=10;
-		cerr<<date.month<<"\n";
-		date.month+=(fin.get()-'0');
-	}
-	fin.get();
-	for(int i=0;i<2;i++){
-		date.day*=10;
-		cerr<<date.day<<"\n";
-		date.month+=(fin.get()-'0');
-	}
-	std::cerr<<date.year<<" "<<date.month<<" "<<date.day<<"\n";
+	fin>>date.year>>date.month>>date.day;
 	return fin;
 }
 
@@ -83,16 +63,7 @@ istream& operator>>(istream& in,Car& car){
 	in>>car.band>>car.model>>car.color>>car.license>>car.producedDate;
 }
 ifstream& operator>>(ifstream& fin,Car& car){ 
-	fin>>car.band>>car.model>>car.color>>car.license;
-	if(!fin){
-		std::cerr<<"wrong other info\n";
-		exit(0);
-	}
-	fin>>car.producedDate;
-	if(!fin){
-		std::cerr<<"wrong date\n";
-		exit(0);
-	}
+	fin>>car.band>>car.model>>car.color>>car.license>>car.producedDate;
 	return fin;
 }
 Car::Car(){}

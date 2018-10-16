@@ -16,7 +16,6 @@ Interface::Interface(string carDatabase):databaseFile(carDatabase){
 }
 Interface::~Interface(){
 	sync();
-	fin.close();
 }
 
 /************************************************************************************************
@@ -36,7 +35,7 @@ void Interface::operating(){
 			Entry(entrySelected);
 	}
 }
-void Interface::clean()const{system("cls");}
+void Interface::clean()const{system("clear");}
 void Interface::showEntries(){
 	cout<<"* * * * * *欢迎使用大松公司汽车信息管理* * * * * *"<<endl
 		<<"  对公司的汽车你享有信息分享权，但是你得妥善驾驶  "<<endl
@@ -45,12 +44,7 @@ void Interface::showEntries(){
 		<<"=                                                ="<<endl
 		<<"=      3.删除汽车信息     4.更新汽车信息         ="<<endl
 		<<"=                                                ="<<endl
-		<<"=      5.查询汽车信息                          ="<<endl
-		;
-	if(!cout)
-		return ;
-		cout
-		<<"什么玩意"<<endl
+		<<"=      5.查询汽车信息                            ="<<endl
 		<<"=                                                ="<<endl
 		<<"=                                                ="<<endl
 		<<"=           0.退出汽车信息管理系统               ="<<endl
@@ -262,23 +256,32 @@ void Interface::searchCars(){
  * These are private methods
  */
 void Interface::readDatabase(string databaseFileName){
-	cout<<carDatabase;
 	fin.open(databaseFileName.c_str());
 	if(!fin.is_open()){
-		cerr<<"Fail to open "<<databaseFileName<<endl;
+		cerr<<"Fail to open "<<databaseFileName<<" when trying to read data from it"<<endl;
 		exit(0);
 	}
 	KVpair<Key,Car> pairReadFromFile;
 	while(fin>>pairReadFromFile)
 		dictionary.insert(pairReadFromFile);
 	fin.clear();
+	fin.close();
 }
 void Interface::backup(string databaseToBackup){
 	const int bufferSize=100;
 	char infoBuffer[bufferSize];
 	string backupFile=databaseToBackup+".swap";
 	fin.open(databaseFile.c_str());
-	fout.open(backupFile.c_str());
+	if(!fin.is_open()){
+		cerr<<"Fail to open database file to read when trying to back it up"<<endl;
+		exit(0);
+	}
+	fout.open(backupFile.c_str(),ios_base::app);
+	if(!fout.is_open()){
+		cerr<<"Fail to open back-up file to write when trying to back uo"<<endl;
+		exit(0);	
+	}
+	fout.seekp(0,ios::beg);
 	while(fin.getline(infoBuffer,bufferSize))
 		fout<<infoBuffer<<endl;
 	fin.clear();
@@ -287,6 +290,10 @@ void Interface::backup(string databaseToBackup){
 }
 void Interface::sync(){
 	fout.open(databaseFile);
+	if(!fout.is_open()){
+		cerr<<"Fail to open file "<<databaseFile<<" when trying to synchronize."<<endl;
+		exit(0);
+	}
 	LList<KVpair<Key,Car>>& pairList=dictionary.getPairList();
 	pairList.moveToStart();
 	while(!pairList.atEnd()){
@@ -323,12 +330,14 @@ int Interface::getCarInput(Car& carReceipt){
 		while(cin.get()!='\n');
 		return INVALID_DATE;
 	}
+	while(cin.get()!='\n');//Clean the input buffer.
 	if(producedDate.year<1000||producedDate.year>3000||producedDate.month<1||producedDate.month>12||producedDate.day<1||producedDate.day>31)
 		return INVALID_DATE;
 	carReceipt.setBand(band);
 	carReceipt.setModel(model);
 	carReceipt.setColor(color);
 	carReceipt.setLicense(license);
+	carReceipt.setProducedDate(producedDate);
 	return FINE;
 }
 int Interface::getGistNumber(){

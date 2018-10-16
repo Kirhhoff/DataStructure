@@ -22,7 +22,6 @@ ofstream& operator<<(ofstream& fout,const Date& date);
 ifstream& operator>>(ifstream& fin,Date& date);
 class Car{
 	private:
-	    string hash;
 		string band;
 		string model;
 		string color;

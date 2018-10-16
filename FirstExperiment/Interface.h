@@ -1,14 +1,17 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
+
 #include<iostream>
 #include<fstream>
-#include"LList.h"
+#include"LLDictionary.h"
 #include"Car.h"
+#include"Key.h"
 #include"config.h"
 using std::ofstream;
 using std::ifstream;
 class Interface{
 	private:
+		LLDictionary<Key,Car> dictionary;
 		LList<Car>* cars;//Car information read from local file.
 		ofstream fout;
 		ifstream fin;
@@ -38,10 +41,10 @@ class Interface{
 							to here, and the screen is flushed, the next cycle begins.
 								You will continue the cycle until you choose to quit. 
 						*/
-		void clean();/*		This function provides the screen flushing.In different platform
-						it has different implementation. Under Windows, I adpot command "cls",
-						while under Linux, I adopt command "clear" or sometimes command "reset".
-					*/
+		void clean() const;/*	This function provides the screen flushing.In different platform
+							it has different implementation. Under Windows, I adpot command "cls",
+							while under Linux, I adopt command "clear" or sometimes command "reset".
+							*/
 		void showEntries();/* 	This function shows the main menu*/
 		void Entry(int entryNumber);/*		This function requires a entry number as argument
 										to judge which submenu to jump to. After that it will
@@ -53,10 +56,19 @@ class Interface{
 											According to error number,it will show relative 
 											prompts to prompt users to modify their inputs.
 											*/
-		LList<Car>* search(searchGist gistNumber);
+		LList<KVpair<Key,Car>>* search(searchGist gistNumber);
+	
 	private:
-		void sync();//Rewrite the cars information into local file.
+		void showCars();
+		void insertCars();
+		void deleteCars();
+		void updateCars();
+		void searchCars();
+		
+	private:
 		void readDatabase(string databaseFileName);//Read cars information from local file.
+		void backup(string databaseToBackup);
+		void sync();//Rewrite the cars information into local file.
 		int getEntryInput();/*	This is the input handling function of entry select.
 							As some people may input at random, I have to wrap a function 
 							to handle it.
@@ -75,7 +87,8 @@ class Interface{
 										return an  INVALID_CAR_INFO macro.
 											All these error will be later handled.
 										*/
-		void backup(string databaseToBackup);
+		int getGistNumber();
+		void showPairList(LList<KVpair<Key,Car>>* pairList);
 };
 
 #endif

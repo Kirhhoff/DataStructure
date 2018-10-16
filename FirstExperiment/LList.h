@@ -1,4 +1,5 @@
-
+#ifndef LLIST_H
+#define LLIST_H
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -62,7 +63,28 @@ class LList{
 			tail=curr->next;
 		cnt++;
 	}
+
+	//Move the curr pointer to the start of the LList.
+	void moveToStart(){curr=head;}
 	
+	//To judge if the curr point is at the end of the List
+	bool atEnd(){return !curr->next;}
+	
+	//Move the curr pointer to the end of the LList.
+	void moveToEnd(){curr=tail;}
+	
+	//
+	void moveToPosition(const E& element){
+		moveToStart();
+		//break when it reachs the tail
+		//or
+		//it finds one bigger than it.
+		while(curr->next){
+			if(element<curr->next->element)
+				break;
+			curr=curr->next;
+		}
+	}
 	//Insert with sorting.
 	void sortedInsert(const E& element){
 		moveToPosition(element);
@@ -88,15 +110,6 @@ class LList{
 		cnt++;	
 	}
 
-	//Move the curr pointer to the start of the LList.
-	void moveToStart(){curr=head;}
-	
-	//To judge if the curr point is at the end of the List
-	bool atEnd(){return !curr->next;}
-	
-	//Move the curr pointer to the end of the LList.
-	void moveToEnd(){curr=tail;}
-	
 	//Get the value of element curr pointer points to currently.
 	E& getValue(){
 		assert(curr!=tail);
@@ -267,17 +280,7 @@ class LList{
 		delete [] container;
 	}
 	
-	//
-	void moveToPositon(const E& element){
-		moveToStart();
-		//break when it reachs the tail
-		//or
-		//it finds one bigger than it.
-		while(curr->next){
-			if(curr->next->element>element)
-				break;
-			curr=curr->next;
-		}
-	}
+	
 };
 
+#endif

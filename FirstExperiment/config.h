@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 #include<string>
+using std::string;
 #define MAX_ENTRY 5
 
 /*
@@ -38,13 +39,12 @@
 #define INVALID_SEARCH_GIST 2
 #define INVALID_CAR_INFO 3
 #define INVALID_DATE 4
+#define INVALID_GIST_NUMBER -1
 
 #define HASH_LENGTH 8
 extern string carDatabase;
 typedef int errorType;
 typedef int searchGist;
-typedef string key;
-
 
 
 

@@ -7,12 +7,12 @@ using std::string;
 /*
     These macroes define the width of different car information field.
 */
-#define HASH_WIDTH 10
-#define BAND_WIDTH 10
-#define MODEL_WIDTH 10
-#define COLOR_WIDTH 10
-#define LICENSE_WIDTH 10
-#define DATE_WIDTH 10
+#define HASH_WIDTH 20
+#define BAND_WIDTH 20
+#define MODEL_WIDTH 20
+#define COLOR_WIDTH 20
+#define LICENSE_WIDTH 20
+#define DATE_WIDTH 20
 
 /*
     These macroes define the different function entries.
@@ -41,7 +41,7 @@ using std::string;
 #define INVALID_DATE 4
 #define INVALID_GIST_NUMBER -1
 
-#define HASH_LENGTH 8
+#define HASH_LENGTH 15
 extern string carDatabase;
 typedef int errorType;
 typedef int searchGist;

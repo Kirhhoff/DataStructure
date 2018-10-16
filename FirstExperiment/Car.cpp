@@ -35,44 +35,66 @@ istream& operator>>(istream& in,Date& date){
 	return in;
 }
 ifstream& operator>>(ifstream& fin,Date& date){
-	fin>>date.year;
+	while(fin.peek()==' '||fin.peek()=='\t')
+		fin.get();
+	date.year=0;
+	date.month=0;
+	date.day=0;
+	for(int i=0;i<4;i++){
+		date.year*=10;
+		cerr<<date.year<<"\n";
+		date.year+=(fin.get()-'0');
+	}
 	fin.get();
-	fin>>date.month;
+	for(int i=0;i<2;i++){
+		date.month*=10;
+		cerr<<date.month<<"\n";
+		date.month+=(fin.get()-'0');
+	}
 	fin.get();
-	fin>>date.day;
+	for(int i=0;i<2;i++){
+		date.day*=10;
+		cerr<<date.day<<"\n";
+		date.month+=(fin.get()-'0');
+	}
+	std::cerr<<date.year<<" "<<date.month<<" "<<date.day<<"\n";
 	return fin;
 }
 
 ostream& operator<<(ostream& out,const Car& car){
 	out<<right;
-	out	<<setw(HASH_WIDTH)<<car.hash
-		<<setw(BAND_WIDTH)<<car.band
+	out	<<setw(BAND_WIDTH)<<car.band
 		<<setw(MODEL_WIDTH)<<car.model
 		<<setw(COLOR_WIDTH)<<car.color
 		<<setw(LICENSE_WIDTH)<<car.license
-		<<setw(DATE_WIDTH)<<car.producedDate
-		<<endl;
+		<<setw(DATE_WIDTH)<<car.producedDate;
 	return out;
 }
 ofstream& operator<<(ofstream& fout,const Car& car){
 	fout<<right;
-	fout<<setw(HASH_WIDTH)<<car.hash
-		<<setw(BAND_WIDTH)<<car.band
+	fout<<setw(BAND_WIDTH)<<car.band
 		<<setw(MODEL_WIDTH)<<car.model
 		<<setw(COLOR_WIDTH)<<car.color
 		<<setw(LICENSE_WIDTH)<<car.license
-		<<setw(DATE_WIDTH)<<car.producedDate
-		<<endl;
+		<<setw(DATE_WIDTH)<<car.producedDate;
 	return fout;
 }
 istream& operator>>(istream& in,Car& car){
 	in>>car.band>>car.model>>car.color>>car.license>>car.producedDate;
 }
 ifstream& operator>>(ifstream& fin,Car& car){ 
-	fin>>car.hash>>car.band>>car.model>>car.color>>car.license;
+	fin>>car.band>>car.model>>car.color>>car.license;
+	if(!fin){
+		std::cerr<<"wrong other info\n";
+		exit(0);
+	}
 	fin>>car.producedDate;
+	if(!fin){
+		std::cerr<<"wrong date\n";
+		exit(0);
+	}
 	return fin;
 }
-Car::Car():hash(Hash::generate(HASH_LENGTH)){}
+Car::Car(){}
 Car::Car(string _band,string _model,string _color,string _license,Date _producedDate):
-	hash(Hash::generate(HASH_LENGTH)),band(_band),model(_model),color(_color),license(_license),producedDate(_producedDate){}
+	band(_band),model(_model),color(_color),license(_license),producedDate(_producedDate){}

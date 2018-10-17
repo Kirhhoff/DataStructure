@@ -18,7 +18,11 @@ class Key{
         :hash(Hash::generate(hashLength)){}
         Key(string hashCode):hash(hashCode){}
     
-    friend ostream& operator<<(ostream& out,const Key& key);
+	public:
+		explicit operator string()const{
+			return hash;
+		}
+	friend ostream& operator<<(ostream& out,const Key& key);
   //  friend ofstream& operator<<(ofstream& fout,const Key& key);
     friend ifstream& operator>>(ifstream& fin,Key& key);
         bool operator==(const Key& key){return hash==key.hash;}

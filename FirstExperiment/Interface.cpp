@@ -1,6 +1,7 @@
 #include"Interface.h"
 #include"config.h"
 #include"KVpair.h"
+#include<unistd.h>
 #include<iomanip>
 #include<iostream>
 using namespace std;
@@ -32,8 +33,10 @@ void Interface::operating(){
 			Error(INVALID_ENTRY);
 		else if(entrySelected==0)
 			return;
-		else
+		else{
+			clean();
 			Entry(entrySelected);
+		}
 	}
 }
 void Interface::clean()const{system("clear");}
@@ -85,32 +88,45 @@ LList<KVpair<Key,Car>>* Interface::search(searchGist gistNumber){
 	string stringGist;
 	Date dateGist;
 	LList<KVpair<Key,Car>> pairList=dictionary.getPairList();
-	LList<KVpair<Key,Car>>* result;
+	LList<KVpair<Key,Car>>* result=new LList<KVpair<Key,Car>>;;
 	KVpair<Key,Car> carGotFromCars;
+	while(true){
 	clean();
 	switch(gistNumber){
+		case HASH:
 		case BAND:
 		case MODEL:
 		case COLOR:
 		case LICENSE:{
-			cout<<"请输入您的查询条件："<<endl;
+			cout<<"请输入您的条件值："<<endl;
 			cin>>stringGist;
-			break;
+			goto valid;
 		}
 		case DATE:{
-			cout<<"请输入您的查询条件：(如1999 10 25)"<<endl;
-			//
-			break;
-		}
-		default:{
-			Error(INVALID_SEARCH_GIST);
-			return 0;
+			cout<<"请输入您的条件值：(如1999 10 25)"<<endl;
+			cin>>dateGist;
+			if(!cin){
+				cin.clear();
+				while(cin.get()!='\n');
+				cout<<"无效的日期！"<<endl
+					<<"输入q退出或其他任意键重新输入日期"<<endl;
+				char input;
+				input=cin.peek();
+				while(cin.get()!='\n');
+				if(input=='q')
+					return result;
+			}
+			else goto valid;
 		}
 	}
+	}
+	valid:{cin.get();}
 	for(pairList.moveToStart();!pairList.atEnd();pairList.next()){
 		string stringCmp;
 		Date dateCmp;
 		switch(gistNumber){
+			case HASH:		stringCmp=static_cast<string>(pairList.getValue().getKey());
+				break;
 			case BAND:		stringCmp=pairList.getValue().getValue().getBand();
 				break;
 			case MODEL:		stringCmp=pairList.getValue().getValue().getModel();
@@ -125,6 +141,7 @@ LList<KVpair<Key,Car>>* Interface::search(searchGist gistNumber){
 				break;
 		}
 		switch(gistNumber){
+			case HASH:
 			case BAND:
 			case MODEL:
 			case COLOR:
@@ -208,8 +225,9 @@ void Interface::deleteCars(){
 void Interface::updateCars(){
 	string hashCode;
 	while(true){
-		cout<<"请输入要更新的汽车编号：";
+		cout<<"请输入要更新的汽车编号："<<endl;
 		cin>>hashCode;
+		cin.get();//Read the escape character after the input.
 		Car foundCar;
 		if(dictionary.find(hashCode,foundCar)){
 			cout<<"汽车存在，信息为："<<endl<<KVpair<Key,Car>(Key(hashCode),foundCar)<<endl
@@ -226,7 +244,7 @@ void Interface::updateCars(){
 				default:{
 					dictionary.remove();
 					dictionary.insert(KVpair<Key,Car>(Key(hashCode),foundCar));
-					cout<<"更新汽车信息成功！"<<endl<<"按q键退出或其他任意键继续添加"<<endl;
+					cout<<"更新汽车信息成功！"<<endl<<"按q键退出或其他任意键继续更新"<<endl;
 					break;
 				}
 			}
@@ -243,19 +261,19 @@ void Interface::searchCars(){
 		LList<KVpair<Key,Car>>* result=0;
 		int gistNumber;
 		cout<<"请输入您的搜索依据，代号分别为"<<endl
-			<<"1.品牌 2.型号 3.颜色 4.车牌号 5.出场日期"<<endl;
+			<<"1.编号 2.品牌 3.型号 4.颜色 5.车牌号 6.出厂日期"<<endl;
 		if(INVALID_GIST_NUMBER==(gistNumber=getGistNumber()))
 			cout<<"无效的查找依据"<<endl;
 		else result=search(gistNumber);
-		if(result){
-			showPairList(result);
-			delete result;
-		}
+		showPairList(result);
+		delete result;
 		cout<<"按q退出或按其他任意键重新搜索"<<endl;
-		if(cin.get()=='q')
-				return;
-		clean();
+		char input;
+		input=cin.peek();
 		while(cin.get()!='\n');
+		if(input=='q')
+			return;
+		clean();
 	}
 }
 
@@ -350,7 +368,15 @@ int Interface::getCarInput(Car& carReceipt){
 	return FINE;
 }
 int Interface::getGistNumber(){
-	
+	int gistNumber;
+	cin>>gistNumber;
+	if(!cin||gistNumber>MAX_GIST){
+		cin.clear();
+		while(cin.get()!='\n');
+		return INVALID_GIST_NUMBER;
+	}
+	cin.get();
+	return gistNumber;
 }
 void Interface::showPairList(LList<KVpair<Key,Car>>* pairList){
 	pairList->moveToStart();

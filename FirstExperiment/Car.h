@@ -19,6 +19,7 @@ bool operator<(const Date& date1,const Date& date2);
 bool operator==(const Date& date1,const Date& date2);
 ostream& operator<<(ostream& out,const Date& date);
 ofstream& operator<<(ofstream& fout,const Date& date);
+istream& operator>>(istream& in,Date& date);
 ifstream& operator>>(ifstream& fin,Date& date);
 class Car{
 	private:

@@ -23,14 +23,13 @@ using std::string;
 #define UPDATE_CARS 4
 #define SEARCH_CARS 5
 
-
-#define HASH 0
-#define BAND 1
-#define MODEL 2
-#define COLOR 3
-#define LICENSE 4
-#define DATE 5
-
+#define HASH 1
+#define BAND 2
+#define MODEL 3
+#define COLOR 4
+#define LICENSE 5
+#define DATE 6
+#define MAX_GIST 6
 /*
     
 */

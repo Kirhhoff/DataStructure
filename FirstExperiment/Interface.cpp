@@ -181,10 +181,11 @@ void Interface::insertCars(){
 				break;
 			}
 		}
-		if(cin.get()=='q')
+		char input=cin.peek();
+		while(cin.get()!='\n');
+		if(input=='q')
 			return;
 		clean();
-		while(cin.get()!='\n');
 	}
 }
 void Interface::deleteCars(){
@@ -195,41 +196,46 @@ void Interface::deleteCars(){
 		if(dictionary.remove(hashCode))
 			cout<<"删除成功！";
 		else cout<<"删除失败，未找到该编号！";
+		while(cin.get()!='\n');
 		cout<<"按q键推出或按其他任意键继续删除"<<endl;
-		if(cin.get()=='q')
+		char input=cin.peek();
+		while(cin.get()!='\n');
+		if(input=='q')
 			return;
 		clean();
-		while(cin.get()!='\n');
 	}
 }
 void Interface::updateCars(){
 	string hashCode;
-	cout<<"请输入要更新的汽车编号：";
-	cin>>hashCode;
-	Car foundCar;
-	if(dictionary.find(hashCode,foundCar)){
-		cout<<"汽车存在，信息为："<<endl<<KVpair<Key,Car>(Key(hashCode),foundCar)<<endl
-			<<"请输入要更新的汽车信息，依次为汽车品牌、型号、颜色、车牌号、出厂年份、出厂月份、出厂日期"<<endl
-			<<"例如 丰田 G502 蓝色 鲁Q2685 1999 07 25"<<endl
-			<<"以回车键结束输入"<<endl
-			<<endl;
-		switch(getCarInput(foundCar)){
-			case INVALID_CAR_INFO:cout<<"无效的汽车信息！"<<endl<<"按q键退出或按其他任意键重新输入"<<endl;
-				break;
-			case INVALID_DATE:cout<<"无效的日期信息！"<<endl<<"按q键退出或按其他任意键重新输入"<<endl;
-				break;
-			case FINE:
-			default:{
-				dictionary.remove();
-				dictionary.insert(KVpair<Key,Car>(Key(hashCode),foundCar));
-				cout<<"更新汽车信息成功！"<<endl<<"按q键退出或其他任意键继续添加"<<endl;
-				break;
+	while(true){
+		cout<<"请输入要更新的汽车编号：";
+		cin>>hashCode;
+		Car foundCar;
+		if(dictionary.find(hashCode,foundCar)){
+			cout<<"汽车存在，信息为："<<endl<<KVpair<Key,Car>(Key(hashCode),foundCar)<<endl
+				<<"请输入要更新的汽车信息，依次为汽车品牌、型号、颜色、车牌号、出厂年份、出厂月份、出厂日期"<<endl
+				<<"例如 丰田 G502 蓝色 鲁Q2685 1999 07 25"<<endl
+				<<"以回车键结束输入"<<endl
+				<<endl;
+			switch(getCarInput(foundCar)){
+				case INVALID_CAR_INFO:cout<<"无效的汽车信息！"<<endl<<"按q键退出或按其他任意键重新输入"<<endl;
+					break;
+				case INVALID_DATE:cout<<"无效的日期信息！"<<endl<<"按q键退出或按其他任意键重新输入"<<endl;
+					break;
+				case FINE:
+				default:{
+					dictionary.remove();
+					dictionary.insert(KVpair<Key,Car>(Key(hashCode),foundCar));
+					cout<<"更新汽车信息成功！"<<endl<<"按q键退出或其他任意键继续添加"<<endl;
+					break;
+				}
 			}
-		}
-		if(cin.get()=='q')
+		}else cout<<"未找到该编号对应的汽车信息"<<endl<<"按q键退出或按其他任意键重新输入"<<endl;
+		char input=cin.peek();
+		while(cin.get()!='\n');
+		if(input=='q')
 			return;
 		clean();
-		while(cin.get()!='\n');
 	}
 }
 void Interface::searchCars(){
@@ -270,11 +276,7 @@ void Interface::readDatabase(string databaseFileName){
 }
 void Interface::backup(string databaseToBackup){
 	string backupFile=databaseToBackup+".swap";
-	string command="cat "+databaseToBackup+" > "+backupFile;
-	cerr<<command;
-	system("cat CarDatabase.txt > CarDatabase.txt.swap");
-	/*
-	const int bufferSize=100;
+	const int bufferSize=200;
 	char infoBuffer[bufferSize];
 	fin.open(databaseFile.c_str());
 	fin.seekg(0,ios::beg);
@@ -290,12 +292,10 @@ void Interface::backup(string databaseToBackup){
 	while(!fin.eof()){
 		fin.getline(infoBuffer,bufferSize);
 		fout<<infoBuffer<<endl;
-		fin.get();
 	}
 	fin.clear();
 	fin.close();
 	fout.close();
-	*/
 }
 void Interface::sync(){
 	fout.open(databaseFile);

@@ -33,8 +33,14 @@
         List.h defines a virtual base class List for LList.h.
         LList.h defines a Link-Based List inherited from List.
 
+--KVpair.h KVpair.cpp:
+		Define the template of class KVpair.
+		Also for specified Key as Key and Car as Value, reload some operators.
+
 --Key.h Key.cpp:
-To meet the KVpair and make sure for every car their is an unique identifier unrelated
+		To make sure for every car there is an unique identifier unrelated to themselves served 
+	as key, the Key class is created. Actually it is just a string,but able to automatically 
+	call function to generate hash code as its value. 
 
 --Car.h Car.cpp:
         These define the Car class and a Date structure. 

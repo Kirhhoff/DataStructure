@@ -43,10 +43,9 @@ using std::string;
 */
 #define INVALID_GIST_NUMBER -1
 #define FINE 0
-#define INVALID_ENTRY 1
-#define INVALID_SEARCH_GIST 2
-#define INVALID_CAR_INFO 3
-#define INVALID_DATE 4
+#define INVALID_SEARCH_GIST 1
+#define INVALID_CAR_INFO 2
+#define INVALID_DATE 3
 
 //This is the hash code length
 #define HASH_LENGTH 15

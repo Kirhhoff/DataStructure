@@ -16,8 +16,11 @@ class Interface{
 		ifstream fin;
 		string databaseFile;//The path of database file.
 	public:
-		Interface(string carDatabase);
-		~Interface();
+		Interface(string carDatabase);/*	Among the constructor it will first back-up data then read.
+										Read the detail about reasons by go to its definition.
+									*/
+
+		~Interface();//Among this function it will synchronize the data to file.
 	public:
 		void operating();/*		This function works as the whole program life cycle.
 								The menu is implemented like a tree. The main 
@@ -89,7 +92,7 @@ class Interface{
 							an INVALID_GIST_NUMBER macro.
 							*/
 		LList<KVpair<Key,Car>>* search(searchGist gistNumber);/*	This function contains serveral switch statements. So it seems 
-																redundant and clumsy.But to implement the ___ to diffrent gist this 
+																redundant and clumsy.But to implement the Polymorphsim to diffrent gist this 
 																is necessary.And I think for such a simple problem to add a FSM here
 																is far more clumsy.
 																	As for a car, its hash,band,model,color and license are all stored 

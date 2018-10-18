@@ -32,16 +32,21 @@ class Car{
 		Car();
 		Car(string _band,string _model,string _color,string _license,Date _producedDate);
 	public:
+		//Getters 
 		string getBand(){return band;}
 		string getModel(){return model;}
 		string getColor(){return color;}
 		string getLicense(){return license;}
 		Date getProducedDate(){return producedDate;}
+		
+		//Setters
 		void setBand(string& _band){band=_band;}
 		void setModel(string& _model){model=_model;}
 		void setColor(string& _color){color=_color;}
 		void setLicense(string& _license){license=_license;}
 		void setProducedDate(Date& _producedDate){producedDate=_producedDate;}
+
+	//Operator Reload
 	friend bool operator<(const Car& car1,const Car& car2);
 	friend ostream& operator<<(ostream& out,const Car& car);
 	friend ofstream& operator<<(ofstream& fout,const Car& car);

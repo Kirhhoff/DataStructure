@@ -73,7 +73,7 @@ class LList{
 	//Move the curr pointer to the end of the LList.
 	void moveToEnd(){curr=tail;}
 	
-	//
+	//Used when inserting with sort to find the appropriate position for new element.
 	void moveToPosition(const E& element){
 		moveToStart();
 		//break when it reachs the tail
@@ -138,7 +138,7 @@ class LList{
 			return false;
 	}
 
-	//
+	//Remove all element for reuse or destructor.
 	void removeAll(){
 		cnt=0;
 		curr=tail=head;
@@ -218,7 +218,7 @@ class LList{
 		return result;
 	}
 	
-	//
+	//swap the value at two specified positions.
 	bool swap(int pos1,int pos2){
 		//Directly return when postion overflows or it is too small
 		if(pos1>cnt||pos2>cnt||pos1<1||pos2<1)
@@ -255,7 +255,7 @@ class LList{
 		delete [] container;
 	}
 	
-	//
+	//sort the elements
 	void sort(){
 		if(cnt<=1)
 			return;

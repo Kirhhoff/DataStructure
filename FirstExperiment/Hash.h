@@ -8,9 +8,9 @@ using std::string;
 
 class Hash{
     private:
-        static string hashLirary;//all characters that may turn up in generated hash code
+        static string hashLirary;//All characters that may turn up in generated hash code
     public:
-        static string generate(int hashLength);
+        static string generate(int hashLength);//Generate hash code of specified length
 };
 
 #endif

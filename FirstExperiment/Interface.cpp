@@ -25,17 +25,21 @@ Interface::~Interface(){
  */
 void Interface::operating(){
 	while(true){
-		int entrySelected;
-		clean();
+		clean();//Clean screen every time before showing the entries.
 		showEntries();
-		entrySelected=getEntryInput();
-		if(entrySelected==-1)
-			Error(INVALID_ENTRY);
-		else if(entrySelected==0)
-			return;
-		else{
-			clean();
-			Entry(entrySelected);
+		int entrySelected=getEntryInput();
+		switch(entrySelected){
+			case INVALID_ENTRY:	{
+				cout<<"请输入有效的功能选项!按任意键重新输入"<<endl;
+				while(cin.get()!='\n');
+				break;
+			}
+			case QUIT:			return;
+			default:{
+				clean();//Clean screen for later showing different entries.
+				Entry(entrySelected);
+				break;
+			}			
 		}
 	}
 }
@@ -74,20 +78,10 @@ void Interface::Entry(int entryNumber){
 			break;
 	}
 }
-void Interface::Error(errorType error){
-	switch(error){
-		case INVALID_ENTRY:{
-			cout<<"请输入有效的功能选项!按任意键重新输入";
-			while(cin.get()!='\n');
-			break;
-		}
-		default:	break;
-	}
-}
 LList<KVpair<Key,Car>>* Interface::search(searchGist gistNumber){
 	string stringGist;
 	Date dateGist;
-	LList<KVpair<Key,Car>> pairList=dictionary.getPairList();
+	LList<KVpair<Key,Car>>& pairList=dictionary.getPairList();
 	LList<KVpair<Key,Car>>* result=new LList<KVpair<Key,Car>>;;
 	KVpair<Key,Car> carGotFromCars;
 	while(true){
@@ -333,7 +327,7 @@ int Interface::getEntryInput(){
 	int entry;
 	cin>>entry;
 	if(!cin||entry<0||entry>MAX_ENTRY){
-		entry=-1;
+		entry=INVALID_ENTRY;
 		cin.clear();
 	}
 	while(cin.get()!='\n');

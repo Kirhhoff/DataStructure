@@ -12,7 +12,6 @@ using std::ifstream;
 class Interface{
 	private:
 		LLDictionary<Key,Car> dictionary;
-		LList<Car>* cars;//Car information read from local file.
 		ofstream fout;
 		ifstream fin;
 		string databaseFile;//The path of database file.
@@ -52,30 +51,25 @@ class Interface{
 										according to the entry number.
 											In a word,it almost contains all submenu logic.
 									*/
-		void Error(errorType errorNumber);/*	This is a error handling function.
-											According to error number,it will show relative 
-											prompts to prompt users to modify their inputs.
-											*/
-		LList<KVpair<Key,Car>>* search(searchGist gistNumber);
-	
 	private:
-		void showCars();
-		void insertCars();
-		void deleteCars();
-		void updateCars();
-		void searchCars();
+		void showCars();//Relative to option 1
+		void insertCars();//Relative to option 2
+		void deleteCars();//Relative to option 3
+		void updateCars();//Relative to option 4
+		void searchCars();//Relative to option 5
 		
 	private:
 		void readDatabase(string databaseFileName);//Read cars information from local file.
-		void backup(string databaseToBackup);
+		void backup(string databaseToBackup);/*		Back up the database every time this program
+												launches.
+											*/
 		void sync();//Rewrite the cars information into local file.
 		int getEntryInput();/*	This is the input handling function of entry select.
 							As some people may input at random, I have to wrap a function 
 							to handle it.
-								Among this function,it will prompt user to input and analyse
-							the input.If the input is valid,it will directly return the input.
-							If not, it will return -1 to indicate user has make an invalid input,
-							after which relative error handling function will be called.
+								If the input is valid,it will directly return the input.
+								If not, it will clean the input buffer and return -1 to indicate 
+							user has make an invalid input,after which relative error handling function will be called.
 							*/
 		int getCarInput(Car& carReceipt);/*	This is the input handling function of car information input.
 										As some people may input at random, I have to wrap a function 
@@ -85,10 +79,33 @@ class Interface{
 											If user inputs an invalid produced date it will return an INVALID_DATE
 										macro.If user input is not enough or has other invalid information,it will
 										return an  INVALID_CAR_INFO macro.
-											All these error will be later handled.
 										*/
-		int getGistNumber();
-		void showPairList(LList<KVpair<Key,Car>>* pairList);
+		int getGistNumber();/*	This is the input handling function of gist number input.
+							As some people may input at random, I have to wrap a function 
+							to handle it.
+								If the user input is valid,it will directly return the gist number 
+							for later we get users' gist value.
+								If not, it will clear the cin, clean the input buffer and return 
+							an INVALID_GIST_NUMBER macro.
+							*/
+		LList<KVpair<Key,Car>>* search(searchGist gistNumber);/*	This function contains serveral switch statements. So it seems 
+																redundant and clumsy.But to implement the ___ to diffrent gist this 
+																is necessary.And I think for such a simple problem to add a FSM here
+																is far more clumsy.
+																	As for a car, its hash,band,model,color and license are all stored 
+																of type string. So under their cases, some handles are the same among 
+																the switch case. And for date, it has an extra but also similar and simply
+																handle.
+																	The search is implemented truly clumsy.It creates a new pointer named 
+																result to store the search result and directly traverses the database.
+																	For every entry in the database, it compare the gist value got form 
+																preceding switch statement with the entry's relative attribute. If they are
+																equal,insert the entry into the result.
+																	After the traversing,directly return.
+																	Clumsy but easy.
+															*/
+		void showPairList(LList<KVpair<Key,Car>>* pairList);//	Show all content of a pairList
+															
 };
 
 #endif

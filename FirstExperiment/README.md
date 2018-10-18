@@ -29,6 +29,13 @@
 --Interface.cpp:
         This file contains all implementation of the methods in Interface class. 
 
+--List.h LList.h:
+        List.h defines a virtual base class List for LList.h.
+        LList.h defines a Link-Based List inherited from List.
+
+--Key.h Key.cpp:
+To meet the KVpair and make sure for every car their is an unique identifier unrelated
+
 --Car.h Car.cpp:
         These define the Car class and a Date structure. 
         A car contains the following attributes:
@@ -65,9 +72,8 @@
         Here a Hash class is defined, which provides a method to generate 
     a variable-length hash code.
 
---List.h LList.h:
-        List.h defines a virtual base class List for LList.h.
-        LList.h defines a Link-Based List inherited from List.
+--Hash.cpp:
+        Here I implement the function to generate hash code.
 
 --main.cpp
         The entrance of the program.
@@ -81,5 +87,5 @@
             Compile the files and redirect the error message to error.log
 
 --error.log
-        If in some cases there is so much wrong message,I will redirect the 
+        If in some cases there is so much wrong messages,I will redirect the 
     information to this file to analyse them carefully. 

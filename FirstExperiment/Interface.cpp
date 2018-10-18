@@ -107,8 +107,10 @@ LList<KVpair<Key,Car>>* Interface::search(searchGist gistNumber){
 				char input;
 				input=cin.peek();
 				while(cin.get()!='\n');
-				if(input=='q')
+				if(input=='q'){
+					clean();
 					return result;
+				}
 			}
 			else goto valid;
 		}
@@ -260,7 +262,8 @@ void Interface::searchCars(){
 			cout<<"无效的查找依据"<<endl;
 		else result=search(gistNumber);
 		showPairList(result);
-		delete result;
+		if(result)
+			delete result;
 		cout<<"按q退出或按其他任意键重新搜索"<<endl;
 		char input;
 		input=cin.peek();
@@ -373,6 +376,8 @@ int Interface::getGistNumber(){
 	return gistNumber;
 }
 void Interface::showPairList(LList<KVpair<Key,Car>>* pairList){
+	if(!pairList)
+		return;
 	pairList->moveToStart();
 	while(pairList->length()&&!pairList->atEnd()){
 		cout<<pairList->getValue()<<endl;

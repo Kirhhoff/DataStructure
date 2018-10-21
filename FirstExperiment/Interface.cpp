@@ -1,7 +1,6 @@
 #include"Interface.h"
 #include"config.h"
 #include"KVpair.h"
-#include<unistd.h>
 #include<iomanip>
 #include<iostream>
 using namespace std;
@@ -302,7 +301,7 @@ int Interface::getCarInput(Car& carReceipt){
 int Interface::getGistNumber(){
 	int gistNumber;
 	cin>>gistNumber;
-	if(!cin||gistNumber>MAX_GIST){
+	if(!cin||gistNumber>MAX_GIST||gistNumber<=0){
 		cin.clear();
 		while(cin.get()!='\n');
 		return INVALID_GIST_NUMBER;

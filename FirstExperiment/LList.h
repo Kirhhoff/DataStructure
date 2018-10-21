@@ -67,6 +67,9 @@ class LList{
 	//Move the curr pointer to the start of the LList.
 	void moveToStart(){curr=head;}
 	
+	//To judgr if the list is empty.
+	bool isEmpty(){return !cnt;}
+
 	//To judge if the curr point is at the end of the List
 	bool atEnd(){return !curr->next;}
 	
@@ -182,7 +185,7 @@ class LList{
 
 	//Return the position of the element curr pointer points to.
 	int getPos(){
-		if(tail=head)
+		if(tail==head)
 			return 0;
 		int i=1;
 		for(List* tmp=head;tmp!=curr;i++)

@@ -3,16 +3,17 @@
 #include"BinNode.h"
 
 template<class Key,class E>
-class BSTNode:virtual public BinNode<E>{
+class BSTNode:public BinNode<E>{
     private:
-        Key key;
+        Key k;
         E it;
-        BSTNode* left;
-        BSTNode* right;
+        BSTNode* leftChild;
+        BSTNode* rightChild;
 
     public:
         BSTNode(){left=right=0;}
-        BSTNode(Key _key,E _it,BSTNode* _left,BSTNode* _right):key(_key),it(_it),left(_left),right(_right){}
+        BSTNode(Key _k,E _it,BSTNode* _leftChild=0,BSTNode* _rightChild=0)
+            :k(_k),it(_it),leftChild(_leftChild),rightChild(_rightChild){}
         ~BSTNode(){}
 
     public:
@@ -23,24 +24,24 @@ class BSTNode:virtual public BinNode<E>{
         virtual void setElement(const E& element){it=element;}
 
         //Set the left child of the BinNode
-        virtual void setLeft(BinNode<E>* leftChild){left=leftChild;}
+        virtual void setLeft(BinNode<E>* _leftChild){leftChild=dynamic_cast<BSTNode*>(_leftChild);}
 
         //Get the left child of the BinNode
-        virtual BinNode<E>* left() const{return left;}
+        virtual BSTNode* left() const{return leftChild;}
 
         //Set the right child of the BinNode
-        virtual void setRight(BinNode<E>* rightChild){right=rightChild;}
+        virtual void setRight(BinNode<E>* _rightChild){rightChild=dynamic_cast<BSTNode*>(_rightChild);}
 
         //Get the right child of the BinNode
-        virtual BinNode<E>* right() const{return right;}
+        virtual BSTNode* right() const{return rightChild;}
 
         //Judge if the BinNode is a leaf
-        virtual bool isLeaf() const{return !left*!right;}
+        virtual bool isLeaf() const{return !leftChild*!rightChild;}
 
         //Get the key of the node
-        virtual Key& key(){return key;}
+        virtual Key& key(){return k;}
 
         //Set the key of the node
-        virtual void setKey(const Key& _key){key=_key;}
+        virtual void setKey(const Key& _k){k=_k;}
 };
 #endif

@@ -7,8 +7,8 @@ template<class Operator>
 class IntlNode:public VarBinNode<Operator>{
     private:
         Operator opx;
-        VarBinNode<Operator>* left;
-        VarBinNode<Operator>* right;
+        VarBinNode<Operator>* leftChild;
+        VarBinNode<Operator>* rightChild;
     
     public:
         IntlNode(const Operator& _opx):opx(_opx){}
@@ -16,8 +16,8 @@ class IntlNode:public VarBinNode<Operator>{
     public:
         virtual bool isLeaf(){return true;}
         Operator value(){return opx;}
-        VarBinNode<Operator>* leftChild(){return left;}
-        VarBinNode<Operator>* rightChild(){return right;}
+        VarBinNode<Operator>* left(){return leftChild;}
+        VarBinNode<Operator>* right(){return rightChild;}
         
         virtual void traverse(){
             left->traverse();

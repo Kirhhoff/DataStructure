@@ -27,11 +27,8 @@ class AStack:public Stack<E>{
 			assert(top);
 			return listArray[top-1];
 		}
-		virtual int length()const{
-			return top;
-		}
-		virtual void clear(){
-			top=0;
-		}
+		virtual int length()const{return top;}
+		virtual void clear(){top=0;}
+		virtual bool isEmpty() const{return !length();}
 };
 #endif

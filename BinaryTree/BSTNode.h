@@ -43,5 +43,6 @@ class BSTNode:public BinNode<E>{
 
         //Set the key of the node
         virtual void setKey(const Key& _k){k=_k;}
+
 };
 #endif

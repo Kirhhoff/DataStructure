@@ -1,10 +1,9 @@
 
 
-
+*.vscode*
 *.exe
 *.out
 debug.log
-*/.vscode/*
 FirstExperiment/debug.log
 FirstExperiment/.swap
 FirstExperiment/nohup.out

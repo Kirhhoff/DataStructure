@@ -27,5 +27,6 @@ class BinNode{
 
         //Judge if the BinNode is a leaf
         virtual bool isLeaf() const =0;
+
 };
 #endif

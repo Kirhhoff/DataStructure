@@ -4,18 +4,22 @@
 using namespace std;
 
 int main(){
-    //BSTNode<int,char>* t=new BSTNode<int,char>;
-    BST<int,char> btree;
-    ifstream fin("BinaryTree/BST.txt");
+    BST<int,char> btree1;
     int key;
     char element;
+    ifstream fin("BinaryTree/BST1.txt");
     if(!fin.is_open())
         exit(0);
     while(fin>>key>>element)
-        btree.insert(key,element);
-    btree.traverse(BST<int,char>::PRE);
-    cout<<endl;
-    btree.traverse(BST<int,char>::IN);
-    cout<<endl;
-    btree.traverse(BST<int,char>::POST);
+        btree1.insert(key,element);
+    fin.clear();
+    fin.close(); 
+
+    cout<<"前序遍历："<<endl;
+    btree1.traverse(BST<int,char>::PRE);
+    cout<<"中序遍历："<<endl;
+    btree1.traverse(BST<int,char>::IN);
+    cout<<"后序遍历："<<endl;
+    btree1.traverse(BST<int,char>::POST);
+    cout<<" "<<btree1.height()<<endl;
 }

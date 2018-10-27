@@ -77,10 +77,17 @@ typename BST<Key,E>::Node* BST<Key,E>::removeHelper(Node* subroot,const Key& k){
         return subroot;
     }
 }
-
+template<class Key,class E>
+int BST<Key,E>::heightHelper(Node* subroot)const{
+    if(!subroot) return 0;
+    int max=heightHelper(subroot->left())>heightHelper(subroot->right())?heightHelper(subroot->left()):heightHelper(subroot->right());
+    return max+1;
+} 
 template<class Key,class E>
 E BST<Key,E>::remove(const Key& k)throw(Exception){
     Node* result;
+    //If it fails to find the node whose key is k,it will throw an Exception.
+    //If not,it removes that node and update nodes
     if(result=findHelper(root,k)){
         E removedElement=result->element();
         root=removeHelper(root,k);
@@ -100,6 +107,8 @@ void BST<Key,E>::preorderPush(Node* itr,AStack<Node*>& realStack,AStack<Node*>& 
         while(!realStack.isEmpty()&&!((itr=realStack.pop())->right()));
         itr=itr->right();
     }
+    while(!tmpStack.isEmpty())
+        realStack.push(tmpStack.pop());
 }
 
 template<class Key,class E>
@@ -114,6 +123,8 @@ void BST<Key,E>::inorderPush(Node* itr,AStack<Node*>& realStack,AStack<Node*>& t
             tmpStack.push(itr=realStack.pop());
         itr=itr->right();  
     }
+    while(!tmpStack.isEmpty())
+        realStack.push(tmpStack.pop());
 }
 
 template<class Key,class E>
@@ -132,12 +143,15 @@ void BST<Key,E>::postorderPush(Node* itr,AStack<Node*>& realStack,AStack<Node*>&
             break;
         itr=itr->right();
     }
+    while(!tmpStack.isEmpty())
+        realStack.push(tmpStack.pop());
 }
 template<class Key,class E>
 void BST<Key,E>::traverse(TraversalOrder order){
     AStack<Node*> realStack(20);
     AStack<Node*> tmpStack(20);
     BSTNode<Key,E>* itr=root;
+    //Generate a pushed stack according to the argument passed to this function
     switch(order){
         case PRE:   preorderPush(itr,realStack,tmpStack);
             break;
@@ -146,10 +160,36 @@ void BST<Key,E>::traverse(TraversalOrder order){
         case POST:  postorderPush(itr,realStack,tmpStack);
             break;
     }
-    while(!tmpStack.isEmpty())
-        realStack.push(tmpStack.pop());
+    //Pop the stack to print this tree in specified order
     while(!realStack.isEmpty()){ 
         itr=realStack.pop();
         cout<<itr->key()<<" : "<<itr->element()<<endl;
     }
+}
+template<class Key,class E>
+void BST<Key,E>::sequentialHelper(Node* subroot)const{
+    if(!subroot){
+        cout<<"/ ";
+        return;
+    }
+    cout<<subroot->element()<<" ";
+    sequentialHelper(subroot->left());
+    sequentialHelper(subroot->right());
+}
+template<class Key,class E>
+void BST<Key,E>::sequential()const{
+    sequentialHelper(root);
+    cout<<endl;
+}
+
+template<class Key,class E>
+void BST<Key,E>::printFive(){
+    static Stack<Node*> fives(20);
+    static Node* itr=root;
+    if(!itr->element%5&&heightHelper(itr)>2)
+        fives.push(itr);
+    if(itr=itr->right())
+        printFive();
+    if(itr=itr->right())
+        printFive();
 }

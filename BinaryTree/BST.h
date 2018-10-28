@@ -56,6 +56,6 @@ class BST{
                                             */
         void sequential() const; 
         int height() const{return heightHelper(root);}    
-        void printFive();                              
+        void printK(int k) const;                              
 };
 #endif

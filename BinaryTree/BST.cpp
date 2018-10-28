@@ -163,7 +163,8 @@ void BST<Key,E>::traverse(TraversalOrder order){
     //Pop the stack to print this tree in specified order
     while(!realStack.isEmpty()){ 
         itr=realStack.pop();
-        cout<<itr->key()<<" : "<<itr->element()<<endl;
+        //cout<<itr->key()<<" : "<<itr->element()<<endl;
+        cout<<itr->key()<<" ";
     }
 }
 template<class Key,class E>
@@ -183,13 +184,31 @@ void BST<Key,E>::sequential()const{
 }
 
 template<class Key,class E>
-void BST<Key,E>::printFive(){
-    static Stack<Node*> fives(20);
+void BST<Key,E>::printK(int k)const{
+    static AStack<Node*> fives(20);
     static Node* itr=root;
-    if(!itr->element%5&&heightHelper(itr)>2)
+    Node* cur=itr;
+    if((!(cur->element()%k))&&(heightHelper(cur)>2))
         fives.push(itr);
-    if(itr=itr->right())
-        printFive();
-    if(itr=itr->right())
-        printFive();
+    if(itr=cur->left())
+        BST<Key,E>::printK(k);
+    if(itr=cur->right())
+        BST<Key,E>::printK(k);
+    if(cur!=root)
+        return;
+    AStack<Node*> reverseStack(20);
+    Node *left,*right;
+    while(!fives.isEmpty()){
+        cur=fives.pop();
+        if(left=cur->left()){
+            if(left->left()) reverseStack.push(left->left());
+            if(left->right()) reverseStack.push(left->right());
+        }
+        if(right=cur->right()){
+            if(right->left()) reverseStack.push(right->left());
+            if(right->right()) reverseStack.push(right->right());
+        }
+    }
+    while(!reverseStack.isEmpty())
+        cout<<reverseStack.pop()->element()<<" ";
 }

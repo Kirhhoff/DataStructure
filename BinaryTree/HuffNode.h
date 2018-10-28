@@ -36,7 +36,10 @@ class IntlNode: public HuffNode<E>{
     public:
         IntlNode(HuffNode<E>* _leftChild,HuffNode<E>* _rightChild)
             :leftChild(_leftChild),rightChild(_rightChild),wgt(leftChild->weight()+rightChild->weight()){}
-        virtual ~IntlNode(){}
+        virtual ~IntlNode(){
+            delete leftChild;
+            delete rightChild;
+        }
         
     public:
         virtual int weight()const{return wgt;}

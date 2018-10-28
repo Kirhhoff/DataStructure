@@ -1,13 +1,13 @@
 #include"Heap.h"
 #include<assert.h>
-template<class E,class Comp>
-void Heap<E,Comp>::swap(E* heap,int pos1,int pos2){
+template<class E>
+void Heap<E>::swap(E* heap,int pos1,int pos2){
     E tmp=heap[pos1];
     heap[pos1]=heap[pos2];
     heap[pos2]=tmp; 
 }
-template<class E,class Comp>
-void Heap<E,Comp>::shiftDown(int pos){
+template<class E>
+void Heap<E>::shiftDown(int pos){
     while(!isLeaf(pos)){
         int biggerChild;
         if(rightChild(pos)<count)
@@ -20,8 +20,8 @@ void Heap<E,Comp>::shiftDown(int pos){
     }
 }
 
-template<class E,class Comp>
-void Heap<E,Comp>::insert(const E& element){
+template<class E>
+void Heap<E>::insert(const E& element){
     assert(count<maxSize);
     int pos=count++;
     heap[pos]=element;
@@ -31,8 +31,8 @@ void Heap<E,Comp>::insert(const E& element){
     }
 }
 
-template<class E,class Comp>
-E Heap<E,Comp>::remove(int pos){
+template<class E>
+E Heap<E>::remove(int pos){
     assert(pos<count);
     E removedElement=heap[pos];
     swap(heap,pos,--count);

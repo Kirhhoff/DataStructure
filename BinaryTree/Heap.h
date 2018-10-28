@@ -2,7 +2,7 @@
 #define HEAP_H
 #define HEAP_DEFAULT_SIZE 20
 #include"Exception.h"
-template<class E,class Comp>
+template<class E>
 class Heap{
     private:
         int maxSize;
@@ -37,5 +37,7 @@ class Heap{
         E remove(int pos);
         
         E removeFirst(){return remove(0);}
+
+        int size() const{return count;}
 };
 #endif

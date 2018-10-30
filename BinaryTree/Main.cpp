@@ -1,9 +1,11 @@
-#include"BST.cpp"
-#include"HuffTree.h"
+//#include"BST.cpp"
+//#include"HuffTree.h"
+#include"HuffTree.cpp"
 #include<stdio.h>
 #include<fstream>
 using namespace std;
 int main(){  
+    /*
     BST<int,int> btree1;
     int key;
     char element;
@@ -15,11 +17,11 @@ int main(){
     fin.clear();
     fin.close(); 
     /*
-    cout<<"Ç°Ðò±éÀú£º"<<endl;
+    cout<<"å‰åºéåŽ†ï¼š"<<endl;
     btree1.traverse(BST<int,char>::PRE);
-    cout<<"ÖÐÐò±éÀú£º"<<endl;
+    cout<<"ä¸­åºéåŽ†ï¼š"<<endl;
     btree1.traverse(BST<int,char>::IN);
-    cout<<"ºóÐò±éÀú£º"<<endl;
+    cout<<"åŽåºéåŽ†ï¼š"<<endl;
     btree1.traverse(BST<int,char>::POST);
     cout<<" "<<btree1.height()<<endl;
 
@@ -28,7 +30,8 @@ int main(){
     btree1.traverse(BST<int,int>::IN);
     cout<<endl;
     btree1.traverse(BST<int,int>::POST);
-    */
+    
+    ifstream fin("BinaryTree/BST1.txt");
     char character;
     int weight;
     HuffTree<char> keep;
@@ -39,6 +42,18 @@ int main(){
         source.insert(keep);
     }
     HuffTree<char> hufftree(source); 
-    system("pause");
-    
+    */
+    ifstream fin("BinaryTree/HuffTree.txt");
+    if(!fin.is_open())
+        exit(5);
+    Heap<HuffTree<char>*,MinHeapComp> heap;
+    int chnum=0;
+    char ch[100];
+    string code[100];
+    int wgt;
+    while(fin>>ch[chnum]>>wgt)
+        heap.insert(new HuffTree<char>(ch[chnum++],wgt));
+    HuffTree<char>* myTree=new HuffTree<char>(heap);
+    for(int i=0;i<chnum;i++)
+        cout<<ch[i]<<":"<<(code[i]=myTree->huffCode(ch[i]))<<endl;
 }

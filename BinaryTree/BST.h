@@ -37,6 +37,7 @@ class BST{
         Node* findHelper(Node* subroot,const Key& k)const;
         Node* removeHelper(Node* subroot,const Key& k);
         int heightHelper(Node* subroot)const;
+        void leavesHelper(Node* subroot,E* leafArray,int& nextPos);
         Node* getMin(Node* subroot)const;
         void sequentialHelper(Node* subroot)const;
         void recursiveTraveral();
@@ -56,6 +57,11 @@ class BST{
                                             */
         void sequential() const; 
         int height() const{return heightHelper(root);}    
-        void printK(int k) const;                              
+        void printK(int k) const;    
+        int leaves(E* leafArray){
+            int amount=00;
+            leavesHelper(root,leafArray,amount);
+            return amount;
+        }                          
 };
 #endif

@@ -212,3 +212,13 @@ void BST<Key,E>::printK(int k)const{
     while(!reverseStack.isEmpty())
         cout<<reverseStack.pop()->element()<<" ";
 }
+template<class Key,class E>
+void BST<Key,E>::leavesHelper(Node* subroot,E* leafArray,int& amount){
+    if(!subroot) return;
+    if(subroot->isLeaf()){
+        leafArray[amount++]=subroot->element();
+        return;
+    }
+    leavesHelper(subroot->left(),leafArray,amount);
+    leavesHelper(subroot->right(),leafArray,amount);
+}

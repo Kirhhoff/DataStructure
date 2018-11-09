@@ -1,7 +1,9 @@
 #ifndef QSORT_CPP
 #define QSORT_CPP
 #include"sort.h"
-
+#include<stdio.h>
+#include<iostream>
+using namespace std;
 template<class E,class Comp>
 int findPivot(E elements[],int left,int right){
     int mid=(left+right)/2;
@@ -24,11 +26,11 @@ int partition(E elements[],int leftest,int rightest){
     swap(elements,pivot,rightest--);//swap the pivot to the rear of elements to sort in this cycle
     while(rightest>leftest){
         swap(elements,leftest,rightest);
-        while(Comp::prior(pivotElement,elements[leftest])) leftest++;
-        while(Comp::prior(elements[rightest],pivotElement)) rightest--;
+        while(leftest<save&&(Comp::prior(pivotElement,elements[leftest])||!Comp::prior(elements[leftest],pivotElement))) leftest++;
+        while(rightest&&(Comp::prior(elements[rightest],pivotElement)||!Comp::prior(pivotElement,elements[rightest]))) rightest--;
     }
     if(Comp::prior(elements[save],elements[leftest])) leftest+=1;//Solve the problem that when rightest equals leftest it doesn't compare them
-    swap(elements,pivot=leftest,save);
+    swap(elements,pivot=leftest,save);    //else pivot--;
     return pivot;//return the leftest one of right subarray
 }
 

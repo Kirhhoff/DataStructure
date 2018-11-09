@@ -11,7 +11,7 @@ class Heap{
         int count;
     public:
         Heap(int size=DEFAULT_HEAP_SIZE):maxSize(size),heap(new E[size]),count(0){}
-        Heap(E* _heap,int _count,int _maxSize):maxSize(_maxSize),heap(_heap),count(_count){buildHeap();}
+        Heap(E* _heap,int _count,int _maxSize=DEFAULT_HEAP_SIZE):maxSize(_maxSize),heap(_heap),count(_count){buildHeap();}
         ~Heap(){delete[] heap;}
 
     private:

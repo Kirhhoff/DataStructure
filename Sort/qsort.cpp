@@ -1,9 +1,7 @@
 #ifndef QSORT_CPP
 #define QSORT_CPP
 #include"sort.h"
-#include<stdio.h>
-#include<iostream>
-using namespace std;
+#include"inssort.cpp"
 template<class E,class Comp>
 int findPivot(E elements[],int left,int right){
     int mid=(left+right)/2;
@@ -17,7 +15,6 @@ int findPivot(E elements[],int left,int right){
     if(Comp::prior(elements[right],elements[left])) return left;//if left<right
     return right;
 }
-
 template<class E,class Comp>
 int partition(E elements[],int leftest,int rightest){
     int pivot=findPivot<E,Comp>(elements,leftest,rightest);
@@ -33,11 +30,13 @@ int partition(E elements[],int leftest,int rightest){
     swap(elements,pivot=leftest,save);    //else pivot--;
     return pivot;//return the leftest one of right subarray
 }
-
 template<class E,class Comp>
 void qsort(E elements[],int leftest,int rightest){
     if(rightest<=leftest) return;
-
+    if(rightest-leftest<=9){
+        inssort<E,Comp>(elements+leftest,rightest-leftest+1);
+        return;
+    }
     /*  part the array to two subarrays and get the 
     *   partition point.(the leftest one of right subarray)
     */
